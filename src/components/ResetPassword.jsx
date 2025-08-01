@@ -14,8 +14,7 @@ export default function ResetPassword() {
       return;
     }
     try {
-const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/reset-password/${token}`, ...
- {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/reset-password/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
@@ -24,6 +23,7 @@ const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/reset-password
       const data = await res.json();
       setMessage(data.message || "Password reset successful.");
     } catch (err) {
+      console.error("Error resetting password:", err);
       setMessage("Error resetting password.");
     }
   };
@@ -39,15 +39,8 @@ const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/reset-password
       textAlign: "center",
       fontFamily: "Arial, sans-serif",
     },
-    heading: {
-      marginBottom: "20px",
-      color: "#333",
-    },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "15px",
-    },
+    heading: { marginBottom: "20px", color: "#333" },
+    form: { display: "flex", flexDirection: "column", gap: "15px" },
     input: {
       padding: "12px 15px",
       fontSize: "1rem",
@@ -109,3 +102,4 @@ const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/reset-password
     </div>
   );
 }
+z
