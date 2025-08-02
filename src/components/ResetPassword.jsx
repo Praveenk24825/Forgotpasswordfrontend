@@ -8,48 +8,6 @@ export default function ResetPassword() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const styles = {
-    container: {
-      maxWidth: "400px",
-      margin: "100px auto",
-      padding: "30px",
-      backgroundColor: "white",
-      borderRadius: "8px",
-      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-      textAlign: "center",
-      fontFamily: "Arial, sans-serif",
-    },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "15px",
-    },
-    input: {
-      padding: "12px",
-      fontSize: "1rem",
-      border: "1px solid #ccc",
-      borderRadius: "6px",
-    },
-    button: {
-      padding: "12px",
-      backgroundColor: "#28a745",
-      color: "white",
-      border: "none",
-      borderRadius: "6px",
-      cursor: "pointer",
-      fontWeight: "bold",
-    },
-    buttonDisabled: {
-      backgroundColor: "#94d3a2",
-      cursor: "not-allowed",
-    },
-    message: {
-      marginTop: "15px",
-      color: "#333",
-      fontWeight: "bold",
-    },
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -84,36 +42,51 @@ export default function ResetPassword() {
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Reset Password</h2>
-      <form style={styles.form} onSubmit={handleSubmit}>
-        <input
-          type="password"
-          placeholder="New password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
-          minLength={6}
-        />
-        <input
-          type="password"
-          placeholder="Confirm new password"
-          required
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          style={styles.input}
-          minLength={6}
-        />
-        <button
-          type="submit"
-          style={loading ? { ...styles.button, ...styles.buttonDisabled } : styles.button}
-          disabled={loading}
-        >
-          {loading ? "Resetting..." : "Reset Password"}
-        </button>
-      </form>
-      {message && <p style={styles.message}>{message}</p>}
+    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <div className="card shadow p-4" style={{ width: "100%", maxWidth: "400px" }}>
+        <h3 className="text-center mb-4">Reset Your Password</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">New Password</label>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Enter new password"
+              required
+              minLength={6}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Confirm New Password</label>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Confirm new password"
+              required
+              minLength={6}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="btn btn-success w-100"
+            disabled={loading}
+          >
+            {loading ? (
+              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            ) : null}
+            {loading ? "Resetting..." : "Reset Password"}
+          </button>
+        </form>
+        {message && (
+          <div className="alert alert-info mt-3 text-center" role="alert">
+            {message}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

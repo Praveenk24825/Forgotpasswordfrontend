@@ -3,10 +3,12 @@ import React, { useState } from "react";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting to:", `${import.meta.env.VITE_API_URL}/api/auth/forgot-password`);
+    setLoading(true);
+    setMessage("");
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
@@ -18,64 +20,49 @@ export default function ForgotPassword() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Something went wrong");
 
-      setMessage(data.message || "Check your email for reset link.");
+      setMessage(data.message || "Check your email for a reset link.");
+      setEmail("");
     } catch (err) {
       console.error(err.message);
       setMessage("Failed to send reset email.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const styles = {
-    container: {
-      maxWidth: "400px",
-      margin: "100px auto",
-      padding: "30px",
-      backgroundColor: "white",
-      borderRadius: "8px",
-      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-      textAlign: "center",
-      fontFamily: "Arial, sans-serif",
-    },
-    input: {
-      width: "100%",
-      padding: "12px",
-      marginBottom: "15px",
-      fontSize: "1rem",
-      borderRadius: "6px",
-      border: "1px solid #ccc",
-    },
-    button: {
-      width: "100%",
-      padding: "12px",
-      backgroundColor: "#007bff",
-      color: "#fff",
-      border: "none",
-      borderRadius: "6px",
-      fontWeight: "bold",
-      fontSize: "1rem",
-      cursor: "pointer",
-    },
-    message: {
-      marginTop: "15px",
-      color: "#444",
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      <h2>Forgot Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          style={styles.input}
-          placeholder="Enter your email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button type="submit" style={styles.button}>Send Reset Email</button>
-      </form>
-      {message && <p style={styles.message}>{message}</p>}
+    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <div className="card shadow p-4" style={{ width: "100%", maxWidth: "400px" }}>
+        <h3 className="text-center mb-4">Forgot Password</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Email Address</label>
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter your email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={loading}
+          >
+            {loading ? (
+              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            ) : null}
+            {loading ? "Sending..." : "Send Reset Email"}
+          </button>
+        </form>
+        {message && (
+          <div className="alert alert-info mt-3 text-center" role="alert">
+            {message}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
