@@ -6,17 +6,22 @@ export default function ForgotPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submitting to:", `${import.meta.env.VITE_API_URL}/api/auth/forgot-password`);
+
     try {
-     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, ... {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Something went wrong");
+
       setMessage(data.message || "Check your email for reset link.");
     } catch (err) {
-      setMessage("Error sending reset email.");
+      console.error(err.message);
+      setMessage("Failed to send reset email.");
     }
   };
 
@@ -27,65 +32,48 @@ export default function ForgotPassword() {
       padding: "30px",
       backgroundColor: "white",
       borderRadius: "8px",
-      boxShadow: "0 4px 12px rgb(0 0 0 / 0.1)",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
       textAlign: "center",
       fontFamily: "Arial, sans-serif",
     },
-    heading: {
-      marginBottom: "20px",
-      color: "#333",
-    },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "15px",
-    },
     input: {
-      padding: "12px 15px",
+      width: "100%",
+      padding: "12px",
+      marginBottom: "15px",
       fontSize: "1rem",
-      border: "1.5px solid #ccc",
       borderRadius: "6px",
-      outline: "none",
+      border: "1px solid #ccc",
     },
     button: {
+      width: "100%",
       padding: "12px",
-      backgroundColor: "#0077ff",
-      color: "white",
-      fontSize: "1rem",
-      fontWeight: "600",
+      backgroundColor: "#007bff",
+      color: "#fff",
       border: "none",
       borderRadius: "6px",
+      fontWeight: "bold",
+      fontSize: "1rem",
       cursor: "pointer",
     },
     message: {
       marginTop: "15px",
-      color: "#555",
-      fontWeight: "500",
+      color: "#444",
     },
   };
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.heading}>Forgot Password</h2>
-      <form style={styles.form} onSubmit={handleSubmit}>
+      <h2>Forgot Password</h2>
+      <form onSubmit={handleSubmit}>
         <input
-          style={styles.input}
           type="email"
+          style={styles.input}
           placeholder="Enter your email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          onFocus={(e) => (e.target.style.borderColor = "#0077ff")}
-          onBlur={(e) => (e.target.style.borderColor = "#ccc")}
         />
-        <button
-          type="submit"
-          style={styles.button}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#005bb5")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#0077ff")}
-        >
-          Send Reset Email
-        </button>
+        <button type="submit" style={styles.button}>Send Reset Email</button>
       </form>
       {message && <p style={styles.message}>{message}</p>}
     </div>
