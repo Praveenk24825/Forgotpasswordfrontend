@@ -1,22 +1,21 @@
+# 🔐 Password Reset - Frontend (React)
+
+This is the frontend of the Password Reset application, built using **React** and styled with **Bootstrap**.
 
 ---
 
-### ✅ **`server/README.md`** (Express Backend)
-
-```md
-# Password Reset - Backend (Express + MongoDB)
-
-This is the backend API for the password reset application, built with **Node.js**, **Express**, and **MongoDB**.
-
 ## 🛠 Features
 
-- Register user
-- Forgot Password (send email with reset link)
-- Reset Password (verify token, update password)
-- Email sending using `nodemailer`
+- ✅ Forgot Password form – requests reset link via email  
+- ✅ Reset Password form – accepts new password using token  
+- ✅ Integrated with Express backend  
+- 🎨 Uses Bootstrap for styling  
+- 🌐 Axios for API calls
+
+---
 
 ## 📦 Installation
 
 ```bash
-cd server
+cd client
 npm install
