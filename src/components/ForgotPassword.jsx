@@ -3,12 +3,14 @@ import React, { useState } from "react";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setMessage("");
+    setError("");
+    setLoading(true);
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
@@ -20,30 +22,32 @@ export default function ForgotPassword() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Something went wrong");
 
-      setMessage(data.message || "Check your email for a reset link.");
+      setMessage(data.message || "✅ Check your email for a reset link.");
       setEmail("");
     } catch (err) {
       console.error(err.message);
-      setMessage("Failed to send reset email.");
+      setError(err.message || "❌ Failed to send reset email.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-      <div className="card shadow p-4" style={{ width: "100%", maxWidth: "400px" }}>
-        <h3 className="text-center mb-4">Forgot Password</h3>
-        <form onSubmit={handleSubmit}>
+    <div className="container d-flex justify-content-center align-items-center bg-light" style={{ minHeight: "100vh" }}>
+      <div className="card shadow-sm p-4 animate__animated animate__fadeIn" style={{ width: "100%", maxWidth: "420px", borderRadius: "1rem" }}>
+        <h3 className="text-center mb-4">📧 Forgot Password</h3>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="mb-3">
-            <label className="form-label">Email Address</label>
+            <label htmlFor="email" className="form-label">Email Address</label>
             <input
               type="email"
               className="form-control"
+              id="email"
               placeholder="Enter your email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
           </div>
           <button
@@ -51,15 +55,16 @@ export default function ForgotPassword() {
             className="btn btn-primary w-100"
             disabled={loading}
           >
-            {loading ? (
+            {loading && (
               <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            ) : null}
+            )}
             {loading ? "Sending..." : "Send Reset Email"}
           </button>
         </form>
-        {message && (
-          <div className="alert alert-info mt-3 text-center" role="alert">
-            {message}
+
+        {(message || error) && (
+          <div className={`alert mt-3 text-center ${message ? "alert-success" : "alert-danger"}`} role="alert">
+            {message || error}
           </div>
         )}
       </div>
