@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="container d-flex justify-content-center align-items-center bg-light" style={{ minHeight: "100vh" }}>
-      <div className="text-center card p-5 shadow-sm animate__animated animate__fadeIn" style={{ borderRadius: "1rem", maxWidth: "500px", width: "100%" }}>
-        <h1 className="mb-3">🔐 Welcome</h1>
-        <p className="lead mb-4">Manage your password securely. Forgot your password? Reset it easily below.</p>
-        
-        <div className="d-grid gap-3">
-          <Link to="/forgot-password" className="btn btn-primary btn-lg">
-            🔁 Forgot Password
+    <div className="container d-flex flex-column justify-content-center align-items-center bg-light" style={{ minHeight: "100vh" }}>
+      <div className="card p-5 shadow-sm text-center" style={{ borderRadius: "1rem", maxWidth: "500px", width: "100%" }}>
+        <h2 className="mb-4">🔐 Welcome to Password Reset App</h2>
+        <p className="mb-4 text-muted">Choose an action below:</p>
+
+        <div className="d-flex flex-column gap-3">
+          <Link to="/forgot-password" className="btn btn-primary">
+            Forgot Password
+          </Link>
+          <Link to="/register" className="btn btn-success">
+            Register
           </Link>
         </div>
       </div>
