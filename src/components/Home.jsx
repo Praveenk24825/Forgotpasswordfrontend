@@ -1,22 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className="container d-flex flex-column justify-content-center align-items-center bg-light" style={{ minHeight: "100vh" }}>
-      <div className="card p-5 shadow-sm text-center" style={{ borderRadius: "1rem", maxWidth: "500px", width: "100%" }}>
-        <h2 className="mb-4">🔐 Welcome to Password Reset App</h2>
-        <p className="mb-4 text-muted">Choose an action below:</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <h1 className="text-4xl font-bold mb-6">🔐 Password Reset App</h1>
+      <p className="text-lg mb-8 text-gray-700">
+        A simple app to register, login, and reset your password securely.
+      </p>
 
-        <div className="d-flex flex-column gap-3">
-          <Link to="/forgot-password" className="btn btn-primary">
-            Forgot Password
-          </Link>
-          <Link to="/register" className="btn btn-success">
-            Register
-          </Link>
-        </div>
+      <div className="flex gap-4">
+        <Link
+          to="/register"
+          className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
+        >
+          Register
+        </Link>
+        <Link
+          to="/login"
+          className="px-6 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600"
+        >
+          Login
+        </Link>
       </div>
     </div>
   );
-}
+};
+
+export default Home;

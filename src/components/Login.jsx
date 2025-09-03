@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../api";
 
-const Register = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+const Login = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
 
   const handleChange = (e) =>
@@ -11,10 +12,11 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post("/register", form);
-      setMessage(res.data.msg);
+      const res = await api.post("/login", form);
+      setMessage("Login successful");
+      localStorage.setItem("token", res.data.token);
     } catch (err) {
-      setMessage(err.response?.data?.msg || "Error registering");
+      setMessage(err.response?.data?.msg || "Error logging in");
     }
   };
 
@@ -24,14 +26,7 @@ const Register = () => {
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg shadow-lg w-96"
       >
-        <h2 className="text-2xl font-bold mb-4">Register</h2>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          className="border p-2 mb-2 w-full rounded"
-          onChange={handleChange}
-        />
+        <h2 className="text-2xl font-bold mb-4">Login</h2>
         <input
           type="email"
           name="email"
@@ -48,14 +43,19 @@ const Register = () => {
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+          className="bg-green-500 text-white px-4 py-2 rounded w-full"
         >
-          Register
+          Login
         </button>
         {message && <p className="mt-2 text-center">{message}</p>}
+        <div className="mt-4 text-center">
+          <Link to="/forgot-password" className="text-blue-600 hover:underline">
+            Forgot Password?
+          </Link>
+        </div>
       </form>
     </div>
   );
 };
 
-export default Register;
+export default Login;
