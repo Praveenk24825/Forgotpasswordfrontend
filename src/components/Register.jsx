@@ -1,61 +1,57 @@
 import React, { useState } from "react";
 import api from "../api";
 
-const Register = () => {
+export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
-  const [message, setMessage] = useState("");
-
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [msg, setMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await api.post("/register", form);
-      setMessage(res.data.msg);
-    } catch (err) {
-      setMessage(err.response?.data?.msg || "Error registering");
+      setMsg(res.data.message);
+    } catch (error) {
+      setMsg(error.response?.data?.message || "Error");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg w-96"
-      >
-        <h2 className="text-2xl font-bold mb-4">Register</h2>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          className="border p-2 mb-2 w-full rounded"
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="border p-2 mb-2 w-full rounded"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          className="border p-2 mb-4 w-full rounded"
-          onChange={handleChange}
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
-        >
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+      <div className="w-full max-w-sm bg-white shadow-lg rounded-xl p-6">
+        <h3 className="text-2xl font-bold text-center mb-4 text-gray-800">
           Register
-        </button>
-        {message && <p className="mt-2 text-center">{message}</p>}
-      </form>
+        </h3>
+        {msg && <div className="mb-4 text-sm text-blue-700">{msg}</div>}
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <input
+            type="text"
+            placeholder="Name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
-};
-
-export default Register;
+}

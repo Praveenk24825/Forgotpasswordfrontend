@@ -2,44 +2,42 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api";
 
-const ResetPassword = () => {
+export default function ResetPassword() {
   const { token } = useParams();
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [msg, setMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await api.post(`/reset-password/${token}`, { password });
-      setMessage(res.data.msg);
-    } catch (err) {
-      setMessage(err.response?.data?.msg || "Error resetting password");
+      setMsg(res.data.message);
+    } catch (error) {
+      setMsg(error.response?.data?.message || "Error");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg w-96"
-      >
-        <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
-        <input
-          type="password"
-          placeholder="New Password"
-          className="border p-2 mb-4 w-full rounded"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="bg-purple-500 text-white px-4 py-2 rounded w-full"
-        >
-          Reset Password
-        </button>
-        {message && <p className="mt-2 text-center">{message}</p>}
-      </form>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
+        <h3 className="text-2xl font-semibold mb-4 text-center">Reset Password</h3>
+        {msg && <div className="mb-4 text-center text-blue-700">{msg}</div>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="password"
+            placeholder="New Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Reset Password
+          </button>
+        </form>
+      </div>
     </div>
   );
-};
-
-export default ResetPassword;
+}
