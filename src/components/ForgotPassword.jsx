@@ -11,12 +11,12 @@ export default function ForgotPassword() {
       const res = await api.post("/forgot-password", { email });
       setMsg(res.data.message);
     } catch (err) {
-      setMsg(err.response?.data?.message || "Server error");
+      setMsg(err.response?.data?.message || "Error");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-50">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-100">
       <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
         <h3 className="text-2xl font-bold mb-4 text-center">Forgot Password</h3>
         {msg && <div className="mb-3 p-2 bg-indigo-100 text-indigo-700 rounded text-center">{msg}</div>}
@@ -31,7 +31,7 @@ export default function ForgotPassword() {
           />
           <button
             type="submit"
-            className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600"
+            className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition"
           >
             Send Reset Link
           </button>
