@@ -12,35 +12,29 @@ export default function ResetPassword() {
     try {
       const res = await api.post(`/reset-password/${token}`, { password });
       setMsg(res.data.message);
+      setPassword("");
     } catch (err) {
-      setMsg(err.response?.data?.message || "Error");
+      setMsg(err.response?.data?.message || "Server error");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-100">
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-2xl font-bold mb-4 text-center text-gray-800">
-          Reset Password
-        </h3>
-
-        {msg && (
-          <div className="mb-4 p-3 text-center text-blue-700 bg-blue-100 rounded">
-            {msg}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-50">
+      <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+        <h3 className="text-2xl font-bold mb-4 text-center">Reset Password</h3>
+        {msg && <div className="mb-3 p-2 bg-green-100 text-green-700 rounded text-center">{msg}</div>}
+        <form className="space-y-3" onSubmit={handleSubmit}>
           <input
             type="password"
-            placeholder="New Password"
+            placeholder="Enter new password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border rounded"
+            required
           />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
           >
             Reset Password
           </button>
