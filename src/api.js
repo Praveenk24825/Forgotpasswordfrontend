@@ -1,10 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL + "/api/auth",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "https://backendproject-10.onrender.com/api/auth", // change if needed
 });
 
 export default api;
