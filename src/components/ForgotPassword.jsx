@@ -16,29 +16,27 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-xl p-6 w-96"
-      >
-        <h2 className="text-2xl font-bold mb-4 text-center">Forgot Password</h2>
-
-        <input
-          type="email"
-          placeholder="Enter your email"
-          className="w-full border p-2 rounded mb-3"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <button
-          type="submit"
-          className="w-full bg-yellow-600 text-white py-2 rounded hover:bg-yellow-700"
-        >
-          Send Reset Link
-        </button>
-        {msg && <p className="mt-3 text-center text-sm">{msg}</p>}
-      </form>
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-100">
+      <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+        <h3 className="text-2xl font-bold mb-4 text-center">Forgot Password</h3>
+        {msg && <div className="mb-3 p-2 bg-indigo-100 text-indigo-700 rounded text-center">{msg}</div>}
+        <form className="space-y-3" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition"
+          >
+            Send Reset Link
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
